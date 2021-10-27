@@ -7,6 +7,11 @@ from matplotlib.colors import ListedColormap
 from perceptronV2 import Perceptron2 as per2
 from adalinegd import Adaline
 from adalinesgd import AdalineSGD
+from Logisticreg.Logisticregressionclassifier import LogisticRegressionGD as Logisticregressionclassifier
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
 
 s = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
 df = pd.read_csv(s,header=None, encoding='utf-8')
@@ -15,13 +20,14 @@ y = df.iloc[0:100,4].values
 y = np.where(y=="Iris-setosa",-1,1)
 X = df.iloc[0:100 , [0,2]].values
 
+
 ppn = Perceptron(eta=0.1,n_iter=10)
 ada = Adaline(eta=0.0001,n_iter=10)
 adasgd = AdalineSGD(n_iter=15,eta=0.01,random_state=1)
+lrgd = Logisticregressionclassifier(eta=0.05,n_iter=1000,random_state=1)
 
 # ada.fit(X,y)
 # ppn.fit(X,y)
-
 
 
 def plotting_data():
@@ -81,5 +87,27 @@ X_std = np.copy(X)
 X_std[:,0] =(X[:,0] - X[:,0].mean()) / X[:,0].std()
 X_std[:,1] = (X[:,1] - X[:,1].mean()) / X[:,1].std()    
 
-adasgd.fit(X_std,y)
-plot_decision_regions(X_std, y, classifier=adasgd)
+
+
+def logistic_reg():
+    iris = load_iris()
+    X_ = iris.data[: , [2,3]]
+    y_ = iris.target
+
+    X_train, X_test, y_train , y_test = train_test_split(X_,y_,test_size=0.3,random_state=1)
+
+    std = StandardScaler()
+    std.fit(X_train)
+    std.fit(X_test)
+    X_train_std = std.transform(X_train)
+    X_test_std = std.transform(X_test)
+    X_train_subset = X_train_std[(y_train == 0) | (y_train ==1)]
+    y_train_subset = y_train[(y_train == 0) | (y_train == 1)]
+    lrgd.fit(X_train_subset,y_train_subset)
+    plot_decision_regions(X=X_train_subset, y=y_train_subset, classifier=lrgd)
+    plt.xlabel("petal length")
+    plt.ylabel("petal width")
+    plt.legend(loc="best")
+    plt.tight_layout()
+    plt.show()
+
