@@ -2,12 +2,12 @@ import os
 import pandas as pd 
 import matplotlib.pyplot as plt
 import numpy as np
-from perceptron import Perceptron
+from BasicAlgorithms.perceptron import Perceptron
 from matplotlib.colors import ListedColormap
-from perceptronV2 import Perceptron2 as per2
-from adalinegd import Adaline
-from adalinesgd import AdalineSGD
-from Logisticreg.Logisticregressionclassifier import LogisticRegressionGD as Logisticregressionclassifier
+from BasicAlgorithms.perceptronV2 import Perceptron2 as per2
+from BasicAlgorithms.adalinegd import Adaline
+from BasicAlgorithms.adalinesgd import AdalineSGD
+from LogisticRegression.Logisticregressionclassifier import LogisticRegressionGD as Logisticregressionclassifier
 from sklearn.datasets import load_iris
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -26,8 +26,8 @@ ada = Adaline(eta=0.0001,n_iter=10)
 adasgd = AdalineSGD(n_iter=15,eta=0.01,random_state=1)
 lrgd = Logisticregressionclassifier(eta=0.05,n_iter=1000,random_state=1)
 
-# ada.fit(X,y)
-# ppn.fit(X,y)
+ada.fit(X,y)
+ppn.fit(X,y)
 
 
 def plotting_data():
@@ -60,7 +60,7 @@ def plot_decision_regions(X,y,classifier,resolution=0.02):
     plt.xlabel("sepal length")
     plt.ylabel("petal length")
     plt.legend(loc="upper left")
-    plt.show()
+    
 
 def adaline():
     fig,axes = plt.subplots(nrows=1,ncols=3,figsize=(10,4))
@@ -110,4 +110,3 @@ def logistic_reg():
     plt.legend(loc="best")
     plt.tight_layout()
     plt.show()
-
