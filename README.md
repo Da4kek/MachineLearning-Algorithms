@@ -41,3 +41,5 @@ the difference between perceptron and adaline is that the weights are updated ba
 > Convergence is reached faster via mini-batches because of the more frequent weight updates.
 
 ---
+
+http://192.168.0.112:8080/?token=1da7a305d3f005f3243978db31d89f367a6946adc129b523
